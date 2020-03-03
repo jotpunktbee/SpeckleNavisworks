@@ -12,15 +12,32 @@ using SpeckleCore;
 namespace SpeckleNavisworks
 {
     [PluginAttribute(
-        "SpeckleNavisworks",
+        "SpeckleCreateStreamNavisworks",
         "C5590956-6D30-4B50-8105-E6E346F3140E",
         ToolTip = "Create new Speckle Stream",
-        DisplayName = "SpeckleInNavisworks")]
+        DisplayName = "Create Stream")]
     public class CreateNewSpeckleStream : AddInPlugin
     {
+        private static Account account;
+        private static SpeckleApiClient client;
+
         public override int Execute(params string[] parameters)
         {
             MessageBox.Show("Hello World!");
+
+            SpeckleCore.SpeckleInitializer.Initialize();
+
+            try
+            {
+                account = LocalContext.GetDefaultAccount();
+            }
+            catch (Exception ex)
+            {
+                List<Account> accounts = LocalContext.GetAccountsByEmail("julian.bolliger@mum.ch");
+                account = accounts.First();
+            }
+
+            MessageBox.Show(account.IsDefault.ToString());
 
             return 0;
         }
