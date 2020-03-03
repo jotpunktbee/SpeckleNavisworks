@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+
 using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.Plugins;
 
@@ -37,7 +38,9 @@ namespace SpeckleNavisworks
                 account = accounts.First();
             }
 
-            MessageBox.Show(account.IsDefault.ToString());
+            var createNewStreamViewModel = new ViewModels.CreateNewStream() { Account = account };
+            var createNewStreamView = new Views.CreateNewStream(createNewStreamViewModel);
+            createNewStreamView.ShowDialog();
 
             return 0;
         }
