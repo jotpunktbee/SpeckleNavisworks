@@ -7,23 +7,64 @@
              xmlns:vm="clr-namespace:SpeckleNavisworks.ViewModels"
              xmlns:uc="clr-namespace:SpeckleNavisworks.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Width="600" Height="500">
+             d:DesignHeight="450" d:DesignWidth="800" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Width="600" Height="500" FontFamily="Arial">
     <Grid>
-        <StackPanel>
-            <StackPanel VerticalAlignment="Top" Margin="10">
-                <Label Content="Name" Target="{Binding ElementName=StreamName}" />
-                <TextBox Name="StreamName" Text="{Binding StreamName, UpdateSourceTrigger=PropertyChanged}" />
-                <Label Content="Description" Target="{Binding ElementName=Description}" />
-                <TextBox Name="StreamDescription" Text="{Binding StreamDescription, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Content="Create Stream" Command="{Binding CreateNewStreamCommand}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="100"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Border Background="White" Height="60">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.5" />
+                </Border.Effect>
+            </Border>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,10">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SPECKLE" VerticalAlignment="Top" FontWeight="Bold" FontSize="24"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="NAVISWORKS" VerticalAlignment="Top" FontSize="24"/>
             </StackPanel>
-            <ItemsControl ItemsSource="{Binding CreatedStreams}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:StreamDetails}">
-                        <uc:StreamDetails />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,-25" FlowDirection="RightToLeft">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}">
+                    <Grid>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" Opacity="0.5" Direction="270" />
+                            </Border.Effect>
+                            <Ellipse Fill="#FF26C2F2" Width="50" Height="50" />
+                        </Border>
+                        <Image Source="/SpeckleNavisworks;component/Resources/baseline_cloud_download_white_36dp.png" Width="24" />
+                    </Grid>
+                </Button>
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0,0,0">
+                    <Grid>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" Opacity="0.5" Direction="270" />
+                            </Border.Effect>
+                            <Ellipse Fill="#FF0080FF" Width="50" Height="50" />
+                        </Border>
+                        <Image Source="/SpeckleNavisworks;component/Resources/baseline_cloud_upload_white_36dp.png" Width="24" />
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <StackPanel VerticalAlignment="Top" Margin="10">
+                    <Label Content="Name" Target="{Binding ElementName=StreamName}" />
+                    <TextBox Name="StreamName" Text="{Binding StreamName, UpdateSourceTrigger=PropertyChanged}" />
+                    <Label Content="Description" Target="{Binding ElementName=Description}" />
+                    <TextBox Name="StreamDescription" Text="{Binding StreamDescription, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Content="Create Stream" Command="{Binding CreateNewStreamCommand}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="100"/>
+                </StackPanel>
+                <ItemsControl ItemsSource="{Binding CreatedStreams}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:StreamDetails}">
+                            <uc:StreamDetails />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
