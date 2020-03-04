@@ -106,8 +106,12 @@
     <Compile Include="ViewModels\Base.cs" />
     <Compile Include="ViewModels\CreateNewStream.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\StreamDetails.cs" />
     <Compile Include="Views\CreateNewStream.xaml.cs">
       <DependentUpon>CreateNewStream.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\StreamDetails.xaml.cs">
+      <DependentUpon>StreamDetails.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +123,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\CreateNewStream.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\StreamDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

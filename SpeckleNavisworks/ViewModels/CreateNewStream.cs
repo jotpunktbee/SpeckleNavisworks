@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using SpeckleCore;
 
 namespace SpeckleNavisworks.ViewModels
@@ -69,6 +71,8 @@ namespace SpeckleNavisworks.ViewModels
             }
         }
 
+        public ObservableCollection<StreamDetails> CreatedStreams { get; set; }
+
         private ICommand _createNewStreamCommand;
         public ICommand CreateNewStreamCommand
         {
@@ -88,6 +92,7 @@ namespace SpeckleNavisworks.ViewModels
         public CreateNewStream(SpeckleApiClient speckleApiClient)
         {
             Client = speckleApiClient;
+            CreatedStreams = new ObservableCollection<StreamDetails>();
         }
 
         public async void GetAllStreams()
@@ -120,7 +125,7 @@ namespace SpeckleNavisworks.ViewModels
 
                 await Client.StreamUpdateAsync(Client.StreamId, ActiveStream);
 
-                System.Windows.MessageBox.Show(ActiveStream.Name);
+                CreatedStreams.Add(new StreamDetails() { SpeckleStream = ActiveStream });
             }
             catch (Exception ex)
             {
