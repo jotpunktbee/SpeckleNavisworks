@@ -16,7 +16,7 @@
         </Grid>
         <Grid Grid.Row="1">
             <StackPanel>
-                <Label Content="Stream Name" Foreground="White" FontSize="20" Padding="10,20,5,5" />
+                <Label Content="Stream Name" Foreground="SlateGray" FontSize="20" Padding="10,20,5,5" />
                 <TextBox Name="StreamName" Text="{Binding StreamName, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" FontSize="18" />
                 <Border>
                     <Border.Effect>

@@ -41,9 +41,12 @@ namespace SpeckleNavisworks
             var client = new SpeckleApiClient(account.RestApi, false, "Navisworks");
             client.AuthToken = account.Token;
 
-            var createNewStreamViewModel = new ViewModels.CreateNewStream(client) { Account = account };
-            var createNewStreamView = new Views.CreateNewStream(createNewStreamViewModel);
-            createNewStreamView.ShowDialog();
+            var mainWindow = new Views.MainWindow();
+            mainWindow.ShowDialog();
+
+            //var createNewStreamViewModel = new ViewModels.CreateNewStream(client) { Account = account };
+            //var createNewStreamView = new Views.CreateNewStream(createNewStreamViewModel);
+            //createNewStreamView.ShowDialog();
 
             return 0;
         }

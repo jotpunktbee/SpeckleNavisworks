@@ -20,19 +20,34 @@ namespace SpeckleNavisworks.Views
     /// </summary>
     public partial class CreateNewStream : Window
     {
+        private ViewModels.Base _selectedViewModel;
+
+        public ViewModels.Base SelectedViewModel
+        {
+            get
+            {
+                return _selectedViewModel;
+            }
+            set
+            {
+                _selectedViewModel = value;
+            }
+        }
         public ViewModels.Base ViewModel { get; set; }
 
         public CreateNewStream(ViewModels.Base viewModel)
         {
             InitializeComponent();
 
-            ViewModel = viewModel;
-            DataContext = ViewModel;
+            SelectedViewModel = viewModel;
+
+            //ViewModel = viewModel;
+            //DataContext = ViewModel;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            (ViewModel as ViewModels.CreateNewStream).GetAllStreams();
+            // (ViewModel as ViewModels.CreateNewStream).GetAllStreams();
         }
     }
 }

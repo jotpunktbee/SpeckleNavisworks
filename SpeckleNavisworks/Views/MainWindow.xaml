@@ -1,4 +1,4 @@
-﻿<Window x:Class="SpeckleNavisworks.Views.CreateNewStream"
+﻿<Window x:Class="SpeckleNavisworks.Views.MainWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,10 +7,13 @@
              xmlns:vm="clr-namespace:SpeckleNavisworks.ViewModels"
              xmlns:uc="clr-namespace:SpeckleNavisworks.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Width="600" Height="500" FontFamily="Arial">
+             d:DesignHeight="450" d:DesignWidth="800" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" Width="600" Height="500" FontFamily="Arial">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:NewStream}">
             <uc:NewStream />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:Overview}">
+            <uc:Overview />
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -18,41 +21,6 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Border Background="White" Height="60">
-                <Border.Effect>
-                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.5" />
-                </Border.Effect>
-            </Border>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,10">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SPECKLE" VerticalAlignment="Top" FontWeight="Bold" FontSize="24"/>
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="NAVISWORKS" VerticalAlignment="Top" FontSize="24"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,-25" FlowDirection="RightToLeft">
-                <Button Background="{x:Null}" BorderBrush="{x:Null}">
-                    <Grid>
-                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" Opacity="0.5" Direction="270" />
-                            </Border.Effect>
-                            <Ellipse Fill="#FF26C2F2" Width="50" Height="50" />
-                        </Border>
-                        <Image Source="/SpeckleNavisworks;component/Resources/baseline_cloud_download_white_36dp.png" Width="24" />
-                    </Grid>
-                </Button>
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0,0,0">
-                    <Grid>
-                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" Opacity="0.5" Direction="270" />
-                            </Border.Effect>
-                            <Ellipse Fill="#FF0080FF" Width="50" Height="50" />
-                        </Border>
-                        <Image Source="/SpeckleNavisworks;component/Resources/baseline_cloud_upload_white_36dp.png" Width="24" />
-                    </Grid>
-                </Button>
-            </StackPanel>
-        </Grid>
         <Grid Grid.Row="1">
             <ContentControl x:Name="Pages" Content="{Binding SelectedViewModel}" />
             <!--<StackPanel>
@@ -71,6 +39,41 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>-->
+        </Grid>
+        <Grid Grid.Row="0">
+            <Border Background="White" Height="60">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.5" />
+                </Border.Effect>
+            </Border>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,10">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SPECKLE" VerticalAlignment="Top" FontWeight="Bold" FontSize="24"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="NAVISWORKS" VerticalAlignment="Top" FontSize="24"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,-25" FlowDirection="RightToLeft">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}">
+                    <Grid>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" Opacity="0.5" Direction="270" />
+                            </Border.Effect>
+                            <Ellipse Fill="#FF0080FF" Width="50" Height="50" />
+                        </Border>
+                        <Image Source="/SpeckleNavisworks;component/Resources/baseline_cloud_upload_white_36dp.png" Width="24" />
+                    </Grid>
+                </Button>
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Margin="10,0,0,0">
+                    <Grid>
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" Opacity="0.5" Direction="270" />
+                            </Border.Effect>
+                            <Ellipse Fill="#FF26C2F2" Width="50" Height="50" />
+                        </Border>
+                        <Image Source="/SpeckleNavisworks;component/Resources/baseline_cloud_download_white_36dp.png" Width="24" />
+                    </Grid>
+                </Button>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

@@ -111,14 +111,22 @@
     </Compile>
     <Compile Include="ViewModels\Base.cs" />
     <Compile Include="ViewModels\CreateNewStream.cs" />
+    <Compile Include="ViewModels\MainWindow.cs" />
     <Compile Include="ViewModels\NewStream.cs" />
+    <Compile Include="ViewModels\Overview.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\StreamDetails.cs" />
     <Compile Include="Views\CreateNewStream.xaml.cs">
       <DependentUpon>CreateNewStream.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\NewStream.xaml.cs">
       <DependentUpon>NewStream.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Overview.xaml.cs">
+      <DependentUpon>Overview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\StreamDetails.xaml.cs">
       <DependentUpon>StreamDetails.xaml</DependentUpon>
@@ -138,7 +146,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserControls\NewStream.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Overview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
