@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,11 @@ namespace SpeckleNavisworks.Models
             {
                 try
                 {
-                    var newSender = await Client.IntializeSender(Client.AuthToken, "Navisworks Document", "Navisworks Manage", Guid.NewGuid().ToString());
+                    var newSender = await Client.IntializeSender(
+                        Client.AuthToken,
+                        Path.GetFileName(NavisworksWrapper.Document.FileName),
+                        "Navisworks Manage",
+                        NavisworksWrapper.DocumentGUID);
                     var newStream = Client.Stream;
                     newStream.Name = String.IsNullOrEmpty(name) ? "Anonymous Naviworks Stream" : name;
                     newStream.Description = String.IsNullOrEmpty(description) ? "There is no description" : description;

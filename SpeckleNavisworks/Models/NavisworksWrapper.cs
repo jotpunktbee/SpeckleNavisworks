@@ -11,6 +11,7 @@ namespace SpeckleNavisworks.Models
     public static class NavisworksWrapper
     {
         public static Document Document;
+        public static string DocumentGUID;
 
         public static List<SelectionSet> GetAllSearchSets()
         {

@@ -29,6 +29,7 @@ namespace SpeckleNavisworks
             SpeckleCore.SpeckleInitializer.Initialize();
 
             Models.NavisworksWrapper.Document = Autodesk.Navisworks.Api.Application.ActiveDocument;
+            Models.NavisworksWrapper.DocumentGUID = SpeckleCore.Converter.getMd5Hash(Autodesk.Navisworks.Api.Application.ActiveDocument.FileName);
 
             try
             {
