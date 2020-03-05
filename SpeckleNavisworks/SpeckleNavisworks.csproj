@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="Helpers\Geometry.cs" />
     <Compile Include="Models\NavisworksWrapper.cs" />
     <Compile Include="Models\SpeckleStreamWrapper.cs" />
     <Compile Include="Models\StreamController.cs" />

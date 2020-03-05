@@ -111,7 +111,7 @@ namespace SpeckleNavisworks.ViewModels
         {
             PushCommandCanExecute = await SpeckleStreamWrapper.UpdateStream(
                 Models.StreamController.Client,
-                Models.NavisworksWrapper.GetBoundingBoxCenter(
+                Helpers.Geometry.GetBoundingBoxCenter(
                     SelectedSelectionSet.GetSelectedItems())
                 .Cast<Object>()
                 .ToList());

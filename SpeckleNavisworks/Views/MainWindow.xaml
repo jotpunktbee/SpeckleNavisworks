@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:SpeckleNavisworks.ViewModels"
              xmlns:uc="clr-namespace:SpeckleNavisworks.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" Width="600" Height="500" FontFamily="Arial">
+             d:DesignHeight="450" d:DesignWidth="800" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Width="600" Height="500" FontFamily="Arial" Title="Speckle Navisworks Manage">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:NewStream}">
             <uc:NewStream />
@@ -23,22 +23,6 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
             <ContentControl x:Name="Pages" Content="{Binding SelectedViewModel}" />
-            <!--<StackPanel>
-                <StackPanel VerticalAlignment="Top" Margin="10">
-                    <Label Content="Name" Target="{Binding ElementName=StreamName}" />
-                    <TextBox Name="StreamName" Text="{Binding StreamName, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label Content="Description" Target="{Binding ElementName=Description}" />
-                    <TextBox Name="StreamDescription" Text="{Binding StreamDescription, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button Content="Create Stream" Command="{Binding CreateNewStreamCommand}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="100"/>
-                </StackPanel>
-                <ItemsControl ItemsSource="{Binding CreatedStreams}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:StreamDetails}">
-                            <uc:StreamDetails />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>-->
         </Grid>
         <Grid Grid.Row="0">
             <Border Background="White" Height="60">
@@ -48,7 +32,7 @@
             </Border>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,10">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SPECKLE" VerticalAlignment="Top" FontWeight="Bold" FontSize="24"/>
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="NAVISWORKS" VerticalAlignment="Top" FontSize="24"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="NAVISWORKS MANAGE" VerticalAlignment="Top" FontSize="24"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,-25" FlowDirection="RightToLeft">
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding NewStreamCommand}">
