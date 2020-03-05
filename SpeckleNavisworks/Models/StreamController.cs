@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
 using SpeckleCore;
 
 namespace SpeckleNavisworks.Models
@@ -63,6 +64,18 @@ namespace SpeckleNavisworks.Models
         private static void AddStream(SpeckleStream speckleStream)
         {
             SpeckleStreams.Add(speckleStream);
+
+            var speckleStreams = JsonConvert.SerializeObject(SpeckleStreams);
+            System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\SpeckleNavisworks");
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\SpeckleNavisworks\\sessions.json";
+
+            using (System.IO.StreamWriter streamWriter = new StreamWriter(
+                path,
+                false))
+            {
+                streamWriter.Write(speckleStreams);
+                streamWriter.Close();
+            }
         }
     }
 }
