@@ -12,17 +12,22 @@ namespace SpeckleNavisworks.Models
     {
         public static Document Document;
 
-        public static List<string> GetAllSearchSets()
+        public static List<SelectionSet> GetAllSearchSets()
         {
-            List<string> result = new List<string>();
+            List<SelectionSet> result = new List<SelectionSet>();
             var selectionSets = Document.SelectionSets;
             var savedItemCollection = selectionSets.Value;
 
             foreach (var saveItem in savedItemCollection)
             {
-                if (saveItem.IsGroup)
+                if (!saveItem.IsGroup)
                 {
-                    result.Add(saveItem.DisplayName);
+                    SelectionSet selectionSet = saveItem as SelectionSet;
+
+                    if (selectionSet != null)
+                    {
+                        result.Add(selectionSet);
+                    }
                 }
             }
 

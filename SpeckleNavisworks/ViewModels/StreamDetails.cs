@@ -12,6 +12,7 @@ namespace SpeckleNavisworks.ViewModels
     {
         private SpeckleStream _speckleStream;
         private SpeckleApiClient _speckleApiClient;
+        private List<Autodesk.Navisworks.Api.SelectionSet> _selectionSets;
 
         public SpeckleStream SpeckleStream
         {
@@ -37,6 +38,22 @@ namespace SpeckleNavisworks.ViewModels
             }
         }
 
-        public StreamDetails() { }
+        public List<Autodesk.Navisworks.Api.SelectionSet> SelectionSets
+        {
+            get
+            {
+                return _selectionSets;
+            }
+            set
+            {
+                _selectionSets = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public StreamDetails()
+        {
+            SelectionSets = new List<Autodesk.Navisworks.Api.SelectionSet>(Models.NavisworksWrapper.GetAllSearchSets());
+        }
     }
 }

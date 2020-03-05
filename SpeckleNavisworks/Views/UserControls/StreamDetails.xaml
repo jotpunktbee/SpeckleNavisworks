@@ -51,6 +51,9 @@
                         <TextBlock Text="Less than a minute ago" Foreground="#FF6C6C6C" Margin="0,0,20,0" />
                     </StackPanel>
                 </Grid>
+                <Grid Grid.Row="2">
+                    <ComboBox Name="SelectionSets" ItemsSource="{Binding SelectionSets}" DisplayMemberPath="DisplayName" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
+                </Grid>
             </Grid>
         </Border>
     </Grid>
