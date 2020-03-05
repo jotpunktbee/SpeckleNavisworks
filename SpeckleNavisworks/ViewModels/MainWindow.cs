@@ -9,21 +9,6 @@ namespace SpeckleNavisworks.ViewModels
 {
     public class MainWindow : Base
     {
-        private ViewModels.Base _selectedViewModel;
-
-        public ViewModels.Base SelectedViewModel
-        {
-            get
-            {
-                return _selectedViewModel;
-            }
-            set
-            {
-                _selectedViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
         private ICommand _newStreamCommand;
 
         public ICommand NewStreamCommand
@@ -43,12 +28,12 @@ namespace SpeckleNavisworks.ViewModels
 
         public MainWindow()
         {
-            SelectedViewModel = new ViewModels.Overview();
+            ChangeViewModel(new ViewModels.Overview());
         }
 
         private void ChangeToNewStream()
         {
-            SelectedViewModel = new ViewModels.NewStream();
+            ChangeViewModel(new ViewModels.NewStream(this));
         }
     }
 }

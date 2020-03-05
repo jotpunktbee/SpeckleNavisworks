@@ -15,8 +15,8 @@ namespace SpeckleNavisworks
     [PluginAttribute(
         "SpeckleCreateStreamNavisworks",
         "C5590956-6D30-4B50-8105-E6E346F3140E",
-        ToolTip = "Create new Speckle Stream",
-        DisplayName = "Create Stream")]
+        ToolTip = "Connection to Speckle",
+        DisplayName = "Speckle Navisworks")]
     public class CreateNewSpeckleStream : AddInPlugin
     {
         private static Account account;
@@ -40,6 +40,8 @@ namespace SpeckleNavisworks
 
             var client = new SpeckleApiClient(account.RestApi, false, "Navisworks");
             client.AuthToken = account.Token;
+
+            Models.StreamController.Client = client;
 
             var mainWindow = new Views.MainWindow();
             mainWindow.ShowDialog();

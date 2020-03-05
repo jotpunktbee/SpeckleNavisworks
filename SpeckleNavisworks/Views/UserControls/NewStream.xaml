@@ -16,13 +16,15 @@
         </Grid>
         <Grid Grid.Row="1">
             <StackPanel>
-                <Label Content="Stream Name" Foreground="SlateGray" FontSize="20" Padding="10,20,5,5" />
-                <TextBox Name="StreamName" Text="{Binding StreamName, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" FontSize="18" />
+                <Label Content="Name" Foreground="SlateGray" FontSize="20" Padding="10,20,5,5" Target="{Binding ElementName=StreamName}"/>
+                <TextBox Name="StreamName" Text="{Binding StreamName, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" FontSize="20" />
+                <Label Content="Description" Foreground="SlateGray" FontSize="20" Padding="10,20,5,5" Target="{Binding ElementName=StreamDescription}"/>
+                <TextBox Name="StreamDescription" Text="{Binding StreamDescription, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" FontSize="20" />
                 <Border>
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="10" Direction="270" Opacity="0.5" />
                     </Border.Effect>
-                    <Button Content="CREATE SENDER" FontSize="18" Margin="10,20,10,0" Height="40" BorderBrush="{x:Null}" Background="#FF0080FF" Foreground="White" />
+                    <Button Content="CREATE SENDER" Command="{Binding CreateStreamCommand}" FontSize="18" Margin="10,20,10,0" Height="40" BorderBrush="{x:Null}" Background="#FF0080FF" Foreground="White" />
                 </Border>
             </StackPanel>
         </Grid>

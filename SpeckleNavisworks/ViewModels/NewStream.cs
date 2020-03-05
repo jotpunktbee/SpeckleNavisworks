@@ -10,28 +10,81 @@ namespace SpeckleNavisworks.ViewModels
 {
     public class NewStream : Base
     {
-        private SpeckleApiClient _client;
+        #region Fields and Properties
+        private string _streamName;
+        private string _streamDescription;
+        private ViewModels.Base _previousViewModel;
 
-        public SpeckleApiClient Client
+        public string StreamName
         {
             get
             {
-                return _client;
+                return _streamName;
             }
             set
             {
-                _client = value;
+                _streamName = value;
                 OnPropertyChanged();
             }
         }
 
-        public NewStream()
+        public string StreamDescription
         {
+            get
+            {
+                return _streamDescription;
+            }
+            set
+            {
+                _streamDescription = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+        #region Commands
+        private ICommand _createStreamCommand;
+
+        public ICommand CreateStreamCommand
+        {
+            get
+            {
+                if (_createStreamCommand == null)
+                {
+                    _createStreamCommand = new RelayCommand(
+                        p => CreateNewStreamCanExecute(),
+                        p => CreateNewStream());
+                }
+
+                return _createStreamCommand;
+            }
+        }
+        #endregion
+
+        public NewStream() { } 
+
+        public NewStream(ViewModels.Base previousViewModel)
+        {
+            _previousViewModel = previousViewModel;
         }
 
-        public NewStream(SpeckleApiClient client)
+        #region Create new stream
+        private async void CreateNewStream()
         {
-            Client = client;
+            if (await Models.StreamController.NewStream(StreamName, StreamDescription))
+            {
+                _previousViewModel.ChangeViewModel(new ViewModels.Overview());
+            }
         }
+
+        private bool CreateNewStreamCanExecute()
+        {
+            if (String.IsNullOrWhiteSpace(StreamName))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
     }
 }
