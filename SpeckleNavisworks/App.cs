@@ -24,8 +24,6 @@ namespace SpeckleNavisworks
 
         public override int Execute(params string[] parameters)
         {
-            MessageBox.Show("Hello World!");
-
             SpeckleCore.SpeckleInitializer.Initialize();
 
             Models.NavisworksWrapper.Document = Autodesk.Navisworks.Api.Application.ActiveDocument;
@@ -48,10 +46,6 @@ namespace SpeckleNavisworks
 
             var mainWindow = new Views.MainWindow();
             mainWindow.ShowDialog();
-
-            //var createNewStreamViewModel = new ViewModels.CreateNewStream(client) { Account = account };
-            //var createNewStreamView = new Views.CreateNewStream(createNewStreamViewModel);
-            //createNewStreamView.ShowDialog();
 
             return 0;
         }
