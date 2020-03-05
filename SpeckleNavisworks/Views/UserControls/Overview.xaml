@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SpeckleNavisworks.Views.UserControls"
+             xmlns:vm="clr-namespace:SpeckleNavisworks.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" FontFamily="Arial">
     <Grid>
@@ -21,6 +22,13 @@
             <StackPanel>
                 <Label Content="SENDERS" FontSize="20" Foreground="#FF0080FF" Padding="10,20,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <Separator Background="#FF0080FF" Margin="10,2" />
+                <ItemsControl ItemsSource="{Binding StreamDetails}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:StreamDetails}">
+                            <local:StreamDetails />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </Grid>
     </Grid>

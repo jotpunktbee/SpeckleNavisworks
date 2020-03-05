@@ -13,7 +13,7 @@ namespace SpeckleNavisworks.Models
         /// <summary>
         /// Collection of SpeckleStreams in this session
         /// </summary>
-        public static List<SpeckleStream> SpeckleStreams { get; private set; }
+        public static List<SpeckleStream> SpeckleStreams { get; private set; } = new List<SpeckleStream>();
         public static SpeckleApiClient Client { get; set; }
 
         /// <summary>
@@ -23,11 +23,6 @@ namespace SpeckleNavisworks.Models
         /// <param name="description"></param>
         public static async Task<bool> NewStream(string name, string description)
         {
-            if (SpeckleStreams == null)
-            {
-                SpeckleStreams = new List<SpeckleStream>();
-            }
-
             if (Client != null)
             {
                 try

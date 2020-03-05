@@ -11,6 +11,7 @@ namespace SpeckleNavisworks.ViewModels
     public class StreamDetails : Base
     {
         private SpeckleStream _speckleStream;
+        private SpeckleApiClient _speckleApiClient;
 
         public SpeckleStream SpeckleStream
         {
@@ -21,6 +22,18 @@ namespace SpeckleNavisworks.ViewModels
             set
             {
                 _speckleStream = value;
+            }
+        }
+
+        public SpeckleApiClient SpeckleApiClient
+        {
+            get
+            {
+                return _speckleApiClient;
+            }
+            set
+            {
+                _speckleApiClient = value;
             }
         }
 

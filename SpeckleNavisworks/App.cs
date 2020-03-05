@@ -28,6 +28,8 @@ namespace SpeckleNavisworks
 
             SpeckleCore.SpeckleInitializer.Initialize();
 
+            Models.NavisworksWrapper.Document = Autodesk.Navisworks.Api.Application.ActiveDocument;
+
             try
             {
                 account = LocalContext.GetDefaultAccount();
