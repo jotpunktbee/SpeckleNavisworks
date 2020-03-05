@@ -4,7 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
+using Autodesk.Navisworks.Api;
+
 using SpeckleCore;
+using SpeckleCoreGeometryClasses;
 using SpeckleNavisworks.Models;
 
 namespace SpeckleNavisworks.ViewModels
@@ -109,12 +113,30 @@ namespace SpeckleNavisworks.ViewModels
 
         public async void PushData()
         {
-            PushCommandCanExecute = await SpeckleStreamWrapper.UpdateStream(
+            PushCommandCanExecute = false;
+
+            ModelItemCollection modelItems = SelectedSelectionSet.GetSelectedItems();
+
+            NavisworksWrapper.GetGeometryData(modelItems);
+
+            List<SpeckleMesh> speckleMeshes = new List<SpeckleMesh>();
+            foreach (var mesh in NavisworksWrapper.Meshes)
+            {
+                var speckleMesh = new SpeckleMesh(mesh.CreateVerticesArray(), mesh.CreateVertexIndexArray(), new int[] { }, new double[] { });
+                speckleMeshes.Add(speckleMesh);
+            }
+
+            await SpeckleStreamWrapper.UpdateStream(
                 Models.StreamController.Client,
-                Helpers.Geometry.GetBoundingBoxCenter(
-                    SelectedSelectionSet.GetSelectedItems())
-                .Cast<Object>()
+                speckleMeshes
+                .Cast<object>()
                 .ToList());
+
+            //PushCommandCanExecute = await SpeckleStreamWrapper.UpdateStream(
+            //    Models.StreamController.Client,
+            //    Helpers.Geometry.GetBoundingBoxCenter(modelItems)
+            //    .Cast<Object>()
+            //    .ToList());
         }
     }
 }
