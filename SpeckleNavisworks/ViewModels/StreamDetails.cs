@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using SpeckleCore;
 using SpeckleNavisworks.Models;
 
@@ -11,10 +11,12 @@ namespace SpeckleNavisworks.ViewModels
 {
     public class StreamDetails : Base
     {
+        #region Fields and Properties
         private SpeckleStreamWrapper _speckleStreamWrapper;
         private SpeckleApiClient _speckleApiClient;
         private List<Autodesk.Navisworks.Api.SelectionSet> _selectionSets;
         private Autodesk.Navisworks.Api.SelectionSet _selectedSelectionSet;
+        private bool _pushCommandCanExecute;
 
         public SpeckleStreamWrapper SpeckleStreamWrapper
         {
@@ -67,9 +69,52 @@ namespace SpeckleNavisworks.ViewModels
             }
         }
 
+        public bool PushCommandCanExecute
+        {
+            get
+            {
+                return _pushCommandCanExecute;
+            }
+            set
+            {
+                _pushCommandCanExecute = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+        #region Commands
+        private ICommand _pushCommand;
+
+        public ICommand PushCommand
+        {
+            get
+            {
+                if (_pushCommand == null)
+                {
+                    _pushCommand = new RelayCommand(
+                        p => PushCommandCanExecute,
+                        p => PushData());
+                }
+
+                return _pushCommand;
+            }
+        }
+        #endregion
+
         public StreamDetails()
         {
+            PushCommandCanExecute = true;
             SelectionSets = new List<Autodesk.Navisworks.Api.SelectionSet>(Models.NavisworksWrapper.GetAllSearchSets());
+        }
+
+        public async void PushData()
+        {
+            PushCommandCanExecute = await SpeckleStreamWrapper.UpdateStream(
+                Models.StreamController.Client,
+                Models.NavisworksWrapper.GetBoundingBoxCenter(
+                    SelectedSelectionSet.GetSelectedItems())
+                .Cast<Object>()
+                .ToList());
         }
     }
 }
