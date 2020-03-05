@@ -5,24 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SpeckleCore;
+using SpeckleNavisworks.Models;
 
 namespace SpeckleNavisworks.ViewModels
 {
     public class StreamDetails : Base
     {
-        private SpeckleStream _speckleStream;
+        private SpeckleStreamWrapper _speckleStreamWrapper;
         private SpeckleApiClient _speckleApiClient;
         private List<Autodesk.Navisworks.Api.SelectionSet> _selectionSets;
+        private Autodesk.Navisworks.Api.SelectionSet _selectedSelectionSet;
 
-        public SpeckleStream SpeckleStream
+        public SpeckleStreamWrapper SpeckleStreamWrapper
         {
             get
             {
-                return _speckleStream;
+                return _speckleStreamWrapper;
             }
             set
             {
-                _speckleStream = value;
+                _speckleStreamWrapper = value;
             }
         }
 
@@ -47,6 +49,20 @@ namespace SpeckleNavisworks.ViewModels
             set
             {
                 _selectionSets = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Autodesk.Navisworks.Api.SelectionSet SelectedSelectionSet
+        {
+            get
+            {
+                return _selectedSelectionSet;
+            }
+            set
+            {
+                _selectedSelectionSet = value;
+                SpeckleStreamWrapper.SelectedSelectionSet = value.DisplayName;
                 OnPropertyChanged();
             }
         }

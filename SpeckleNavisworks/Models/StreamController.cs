@@ -15,7 +15,7 @@ namespace SpeckleNavisworks.Models
         /// <summary>
         /// Collection of SpeckleStreams in this session
         /// </summary>
-        public static List<SpeckleStream> SpeckleStreams { get; private set; } = new List<SpeckleStream>();
+        public static List<SpeckleStreamWrapper> SpeckleStreamsWrappers { get; private set; } = new List<SpeckleStreamWrapper>();
         public static SpeckleApiClient Client { get; set; }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace SpeckleNavisworks.Models
 
                     await Client.StreamUpdateAsync(Client.StreamId, newStream);
 
-                    AddStream(newStream);
+                    AddStream(new SpeckleStreamWrapper(newStream));
 
                     return true;
                 }
@@ -61,11 +61,11 @@ namespace SpeckleNavisworks.Models
         /// Adds a SpeckleStream to the collection of streams
         /// </summary>
         /// <param name="speckleStream"></param>
-        private static void AddStream(SpeckleStream speckleStream)
+        private static void AddStream(SpeckleStreamWrapper speckleStream)
         {
-            SpeckleStreams.Add(speckleStream);
+            SpeckleStreamsWrappers.Add(speckleStream);
 
-            var speckleStreams = JsonConvert.SerializeObject(SpeckleStreams);
+            var speckleStreams = JsonConvert.SerializeObject(SpeckleStreamsWrappers);
             System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\SpeckleNavisworks");
             var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\SpeckleNavisworks\\sessions.json";
 

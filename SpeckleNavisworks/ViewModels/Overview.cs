@@ -9,9 +9,9 @@ namespace SpeckleNavisworks.ViewModels
 
         public Overview()
         {
-            foreach (var speckleStream in Models.StreamController.SpeckleStreams)
+            foreach (var speckleStreamWrapper in Models.StreamController.SpeckleStreamsWrappers)
             {
-                var streamDetail = new StreamDetails() { SpeckleStream = speckleStream };
+                var streamDetail = new StreamDetails() { SpeckleStreamWrapper = speckleStreamWrapper };
                 StreamDetails.Add(streamDetail);
             }
         }
