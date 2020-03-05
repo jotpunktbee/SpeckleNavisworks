@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SpeckleNavisworks.ViewModels
 {
@@ -23,9 +24,31 @@ namespace SpeckleNavisworks.ViewModels
             }
         }
 
+        private ICommand _newStreamCommand;
+
+        public ICommand NewStreamCommand
+        {
+            get
+            {
+                if (_newStreamCommand == null)
+                {
+                    _newStreamCommand = new RelayCommand(
+                        p => true,
+                        p => ChangeToNewStream());
+                }
+
+                return _newStreamCommand;
+            }
+        }
+
         public MainWindow()
         {
             SelectedViewModel = new ViewModels.Overview();
+        }
+
+        private void ChangeToNewStream()
+        {
+            SelectedViewModel = new ViewModels.NewStream();
         }
     }
 }
