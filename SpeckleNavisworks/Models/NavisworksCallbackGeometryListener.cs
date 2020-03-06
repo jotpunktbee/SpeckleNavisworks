@@ -16,9 +16,9 @@ namespace SpeckleNavisworks.Models
         public void Triangle(InwSimpleVertex v1, InwSimpleVertex v2, InwSimpleVertex v3)
         {
             SpeckleNavisworks.Models.Triangle triangle = new Triangle(
-                SpeckleNavisworks.Models.Triangle.ConvertToPoint3D(v1),
-                SpeckleNavisworks.Models.Triangle.ConvertToPoint3D(v2),
-                SpeckleNavisworks.Models.Triangle.ConvertToPoint3D(v3));
+                Helpers.Geometry.OfPoint3D(SpeckleNavisworks.Models.Triangle.ConvertToPoint3D(v1)),
+                Helpers.Geometry.OfPoint3D(SpeckleNavisworks.Models.Triangle.ConvertToPoint3D(v2)),
+                Helpers.Geometry.OfPoint3D(SpeckleNavisworks.Models.Triangle.ConvertToPoint3D(v3)));
 
             SpeckleNavisworks.Models.NavisworksWrapper.Mesh.Vertices.Add(triangle.Pt1);
             SpeckleNavisworks.Models.NavisworksWrapper.Mesh.Vertices.Add(triangle.Pt2);

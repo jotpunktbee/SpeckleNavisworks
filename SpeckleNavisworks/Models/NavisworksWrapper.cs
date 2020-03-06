@@ -41,44 +41,29 @@ namespace SpeckleNavisworks.Models
 
         public static List<Mesh> Meshes = new List<Mesh>();
         public static Mesh Mesh;
+        public static double[] Elements;
 
         public static void GetGeometryData(ModelItemCollection modelItems)
         {
             ComApi.InwOpSelection oSelection = ComBridge.ToInwOpSelection(modelItems);
             var navisworksCallbackGeometryListener = new NavisworksCallbackGeometryListener();
 
-            int i = 1;
             foreach (ComApi.InwOaPath3 path in oSelection.Paths())
             {
                 Mesh = new Mesh();
 
                 foreach (ComApi.InwOaFragment3 fragment in path.Fragments())
                 {
+                    // Convert relative coordinates to absolute coordinates
+                    ComApi.InwLTransform3f3 localToWorld = (ComApi.InwLTransform3f3)(object)fragment.GetLocalToWorldMatrix();
+                    Array localToWorldMatrix = (Array)(object)localToWorld.Matrix;
+                    Elements = Helpers.Utils.ToArray<double>(localToWorldMatrix);
+
                     fragment.GenerateSimplePrimitives(ComApi.nwEVertexProperty.eNORMAL, navisworksCallbackGeometryListener);
                 }
 
                 Mesh.CreateIndexGroups();
                 Meshes.Add(Mesh);
-
-                using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter($@"C:\Temp\IndexGroups-{i}.csv"))
-                {
-                    var indexgroups = Mesh.IndexGroupsToStrings();
-                    for (int x = 0; x < indexgroups.Count; x++)
-                    {
-                        streamWriter.WriteLine(indexgroups[x]);
-                    }
-                }
-
-                using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter($@"C:\Temp\Vertices-{i}.csv"))
-                {
-                    var vertices = Mesh.PointsToStrings();
-                    for (int x = 0; x < vertices.Count; x++)
-                    {
-                        streamWriter.WriteLine(vertices[x]);
-                    }
-                }
-
-                i += 1;
             }
         }
     }
@@ -128,26 +113,6 @@ namespace SpeckleNavisworks.Models
             }
 
             return result.ToArray();
-        }
-
-        public List<string> IndexGroupsToStrings()
-        {
-            var result = new List<string>();
-
-            foreach (var triangle in Triangles)
-            {
-                var indexGroup = triangle.IndexGroup;
-                result.Add($"{indexGroup.A},{indexGroup.B},{indexGroup.C}");
-            }
-
-            return result;
-        }
-
-        public List<string> PointsToStrings()
-        {
-            return VerticesList
-                .Select(v => $"{v.X},{v.Y},{v.Z}")
-                .ToList();
         }
     }
 

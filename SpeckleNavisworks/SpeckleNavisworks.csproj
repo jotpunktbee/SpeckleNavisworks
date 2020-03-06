@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Helpers\Geometry.cs" />
+    <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Models\NavisworksCallbackGeometryListener.cs" />
     <Compile Include="Models\NavisworksWrapper.cs" />
     <Compile Include="Models\SpeckleStreamWrapper.cs" />
