@@ -67,6 +67,13 @@ namespace SpeckleNavisworks.Models
                 Meshes.Add(Mesh);
             }
         }
+
+        public static void Reset()
+        {
+            Meshes = new List<Mesh>();
+            Mesh = null;
+            Elements = null;
+        }
     }
 
     public class Mesh

@@ -30,19 +30,19 @@ namespace SpeckleNavisworks.Models
             SelectedSelectionSet = "";
         }
 
-        public async Task<bool> UpdateStream(SpeckleApiClient client, List<Object> objects)
-        {
-            SpeckleStream.Objects.Clear();
-            SpeckleStream.Objects.AddRange(SpeckleCore.Converter.Serialise(objects));
+        //public async Task<bool> UpdateStream(SpeckleApiClient client, List<Object> objects)
+        //{
+        //    SpeckleStream.Objects.Clear();
+        //    SpeckleStream.Objects.AddRange(SpeckleCore.Converter.Serialise(objects));
 
-            ResponseBase responseBase = await client.StreamUpdateAsync(SpeckleStream.StreamId, SpeckleStream);
+        //    ResponseBase responseBase = await client.StreamUpdateAsync(SpeckleStream.StreamId, SpeckleStream);
 
-            if (responseBase.Success == true)
-            {
-                return true;
-            }
+        //    if (responseBase.Success == true)
+        //    {
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
     }
 }

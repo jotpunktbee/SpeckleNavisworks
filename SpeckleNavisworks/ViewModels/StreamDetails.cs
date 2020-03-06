@@ -119,21 +119,27 @@ namespace SpeckleNavisworks.ViewModels
 
             NavisworksWrapper.GetGeometryData(modelItems);
 
-            List<SpeckleMesh> speckleMeshes = new List<SpeckleMesh>();
+            List<SpeckleObject> speckleObjects = new List<SpeckleObject>();
             foreach (var mesh in NavisworksWrapper.Meshes)
             {
                 var props = new Dictionary<string, object>();
                 props.Add("Name", mesh.Name);
                 var speckleMesh = new SpeckleMesh(mesh.CreateVerticesArray(), mesh.CreateVertexIndexArray(), new int[] { }, new double[] { }, properties: props);
                 speckleMesh.Name = mesh.Name;
-                speckleMeshes.Add(speckleMesh);
+                speckleObjects.Add(speckleMesh);
             }
 
-            await SpeckleStreamWrapper.UpdateStream(
-                Models.StreamController.Client,
-                speckleMeshes
-                .Cast<object>()
-                .ToList());
+            // Empty meshes list
+            NavisworksWrapper.Reset();
+
+            StreamController.Client.Stream = SpeckleStreamWrapper.SpeckleStream;
+            StreamController.UpdateStream(speckleObjects);
+
+            //await SpeckleStreamWrapper.UpdateStream(
+            //    Models.StreamController.Client,
+            //    speckleMeshes
+            //    .Cast<object>()
+            //    .ToList());
 
             //PushCommandCanExecute = await SpeckleStreamWrapper.UpdateStream(
             //    Models.StreamController.Client,
