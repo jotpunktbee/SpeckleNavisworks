@@ -83,8 +83,17 @@ namespace SpeckleNavisworks.Models
         /// Update a SpeckleStream
         /// </summary>
         /// <param name="objects"></param>
-        /// <returns></returns>
         public static void UpdateStream(List<SpeckleObject> objects)
+        {
+            UpdateStream(objects, null);
+        }
+
+        /// <summary>
+        /// Update a SpeckleStream and show progress
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="viewModelProgress"></param>
+        public static void UpdateStream(List<SpeckleObject> objects, ViewModels.Base viewModelProgress)
         {
             var convertedSpeckleObjects = objects;
             // LocalContext.PruneExistingObjects(convertedSpeckleObjects, Client.BaseUrl);
@@ -93,7 +102,7 @@ namespace SpeckleNavisworks.Models
             Client.Stream.Children.Add(cloneResult.Clone.StreamId);
 
             List<SpeckleObject> persistedSpeckleObjects = new List<SpeckleObject>();
-
+            ViewModels.StreamDetails showProgress = null;
             if (convertedSpeckleObjects.Count(obj => obj.Type == "Placeholder") != convertedSpeckleObjects.Count)
             {
                 int count = 0;
@@ -133,6 +142,13 @@ namespace SpeckleNavisworks.Models
 
                 Debug.WriteLine("Finished, payload object update count is: " + objectUpdatePayloads.Count + " total bucket size is (kb) " + totalBucketSize / 1000);
 
+                if (viewModelProgress != null)
+                {
+                    showProgress = viewModelProgress as ViewModels.StreamDetails;
+                    showProgress.ProgressMaxValue = objectUpdatePayloads.Count;
+                    showProgress.ProgressValue = 0;
+                }
+
                 int k = 0;
                 List<ResponseObject> responses = new List<ResponseObject>();
                 foreach (var payload in objectUpdatePayloads)
@@ -154,6 +170,11 @@ namespace SpeckleNavisworks.Models
                             {
                                 LocalContext.AddSentObject(oL, Client.BaseUrl);
                             }
+                        }
+
+                        if (showProgress != null)
+                        {
+                            showProgress.ProgressValue += 1;
                         }
                     }
                     catch (Exception ex)
@@ -193,6 +214,11 @@ namespace SpeckleNavisworks.Models
             Client.BroadcastMessage("stream", Client.StreamId, new { eventType = "update-global" });
 
             Debug.WriteLine("Data sent!");
+
+            if (showProgress != null)
+            {
+                showProgress.ProgressValue = 0;
+            }
         }
     }
 }

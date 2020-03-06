@@ -11,23 +11,6 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0.2" />
             </Border.Effect>
-            <!--<Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <StackPanel>
-                        <TextBlock Text="{Binding SpeckleStream.Name}" Foreground="White" FontSize="48" FontWeight="Bold" FontFamily="Arial" />
-                        <TextBlock Text="{Binding SpeckleStream.StreamId}" />
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <StackPanel>
-                        <Button Content="PUSH" Height="50" />
-                    </StackPanel>
-                </Grid>
-            </Grid>-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />

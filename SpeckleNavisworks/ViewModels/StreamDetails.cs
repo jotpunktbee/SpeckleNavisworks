@@ -21,6 +21,34 @@ namespace SpeckleNavisworks.ViewModels
         private List<Autodesk.Navisworks.Api.SelectionSet> _selectionSets;
         private Autodesk.Navisworks.Api.SelectionSet _selectedSelectionSet;
         private bool _pushCommandCanExecute;
+        private double _progressValue;
+        private double _progressMaxValue;
+
+        public double ProgressValue
+        {
+            get
+            {
+                return _progressValue;
+            }
+            set
+            {
+                _progressValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ProgressMaxValue
+        {
+            get
+            {
+                return _progressMaxValue;
+            }
+            set
+            {
+                _progressMaxValue = value;
+                OnPropertyChanged();
+            }
+        }
 
         public SpeckleStreamWrapper SpeckleStreamWrapper
         {
@@ -133,7 +161,7 @@ namespace SpeckleNavisworks.ViewModels
             NavisworksWrapper.Reset();
 
             StreamController.Client.Stream = SpeckleStreamWrapper.SpeckleStream;
-            StreamController.UpdateStream(speckleObjects);
+            StreamController.UpdateStream(speckleObjects, this);
 
             //await SpeckleStreamWrapper.UpdateStream(
             //    Models.StreamController.Client,
