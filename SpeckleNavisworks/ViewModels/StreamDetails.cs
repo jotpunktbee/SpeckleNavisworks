@@ -122,7 +122,10 @@ namespace SpeckleNavisworks.ViewModels
             List<SpeckleMesh> speckleMeshes = new List<SpeckleMesh>();
             foreach (var mesh in NavisworksWrapper.Meshes)
             {
-                var speckleMesh = new SpeckleMesh(mesh.CreateVerticesArray(), mesh.CreateVertexIndexArray(), new int[] { }, new double[] { });
+                var props = new Dictionary<string, object>();
+                props.Add("Name", mesh.Name);
+                var speckleMesh = new SpeckleMesh(mesh.CreateVerticesArray(), mesh.CreateVertexIndexArray(), new int[] { }, new double[] { }, properties: props);
+                speckleMesh.Name = mesh.Name;
                 speckleMeshes.Add(speckleMesh);
             }
 

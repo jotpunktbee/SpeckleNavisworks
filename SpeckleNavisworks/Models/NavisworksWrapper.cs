@@ -62,6 +62,7 @@ namespace SpeckleNavisworks.Models
                     fragment.GenerateSimplePrimitives(ComApi.nwEVertexProperty.eNORMAL, navisworksCallbackGeometryListener);
                 }
 
+                Mesh.Name = ComBridge.ToModelItem(path).DisplayName;
                 Mesh.CreateIndexGroups();
                 Meshes.Add(Mesh);
             }
@@ -73,6 +74,7 @@ namespace SpeckleNavisworks.Models
         public List<Triangle> Triangles = new List<Triangle>();
         public HashSet<Point3D> Vertices = new HashSet<Point3D>();
         public List<Point3D> VerticesList = new List<Point3D>();
+        public string Name;
 
         public Mesh()
         {
