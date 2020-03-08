@@ -16,7 +16,7 @@
                     <RowDefinition Height="50" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="20" />
+                    <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Background="#FF0080FF">
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
@@ -37,7 +37,19 @@
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="2">
-                    <ComboBox Name="SelectionSets" ItemsSource="{Binding SelectionSets}" SelectedItem="{Binding SelectedSelectionSet}" DisplayMemberPath="DisplayName" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="10,10,0,0"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <StackPanel Margin="10">
+                                <Label Content="Selection Set:" Target="{Binding ElementName=SelectionSets}" />
+                                <ComboBox Name="SelectionSets" ItemsSource="{Binding SelectionSets}" SelectedItem="{Binding SelectedSelectionSet}" DisplayMemberPath="DisplayName" VerticalAlignment="Top" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </Border>

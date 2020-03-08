@@ -23,6 +23,20 @@ namespace SpeckleNavisworks.ViewModels
         private bool _pushCommandCanExecute;
         private double _progressValue;
         private double _progressMaxValue;
+        private bool _progressIsIndeterminate = false;
+
+        public bool ProgressIsIndeterminate
+        {
+            get
+            {
+                return _progressIsIndeterminate;
+            }
+            set
+            {
+                _progressIsIndeterminate = value;
+                OnPropertyChanged();
+            }
+        }
 
         public double ProgressValue
         {
@@ -143,10 +157,12 @@ namespace SpeckleNavisworks.ViewModels
         {
             PushCommandCanExecute = false;
 
+            Progress progress = Autodesk.Navisworks.Api.Application.BeginProgress();
+            progress.BeginSubOperation(0.8, "Collecting model information");
             ModelItemCollection modelItems = SelectedSelectionSet.GetSelectedItems();
 
-            NavisworksWrapper.GetGeometryData(modelItems);
-
+            NavisworksWrapper.GetGeometryData(modelItems, progress);
+            
             List<SpeckleObject> speckleObjects = new List<SpeckleObject>();
             foreach (var mesh in NavisworksWrapper.Meshes)
             {
@@ -160,20 +176,16 @@ namespace SpeckleNavisworks.ViewModels
             // Empty meshes list
             NavisworksWrapper.Reset();
 
+            progress.EndSubOperation(true);
+            progress.BeginSubOperation(1, "Upload data to speckle");
+
             StreamController.Client.Stream = SpeckleStreamWrapper.SpeckleStream;
-            StreamController.UpdateStream(speckleObjects, this);
+            var result = await StreamController.UpdateStream(speckleObjects);
 
-            //await SpeckleStreamWrapper.UpdateStream(
-            //    Models.StreamController.Client,
-            //    speckleMeshes
-            //    .Cast<object>()
-            //    .ToList());
+            progress.EndSubOperation(true);
+            Autodesk.Navisworks.Api.Application.EndProgress();
 
-            //PushCommandCanExecute = await SpeckleStreamWrapper.UpdateStream(
-            //    Models.StreamController.Client,
-            //    Helpers.Geometry.GetBoundingBoxCenter(modelItems)
-            //    .Cast<Object>()
-            //    .ToList());
+            PushCommandCanExecute = true;
         }
     }
 }

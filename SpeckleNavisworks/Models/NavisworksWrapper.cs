@@ -43,10 +43,14 @@ namespace SpeckleNavisworks.Models
         public static Mesh Mesh;
         public static double[] Elements;
 
-        public static void GetGeometryData(ModelItemCollection modelItems)
+
+        public static void GetGeometryData(ModelItemCollection modelItems, Progress progress)
         {
             ComApi.InwOpSelection oSelection = ComBridge.ToInwOpSelection(modelItems);
             var navisworksCallbackGeometryListener = new NavisworksCallbackGeometryListener();
+
+            double counterIterator = 0.8 / modelItems.Count;
+            double counter = 0;
 
             foreach (ComApi.InwOaPath3 path in oSelection.Paths())
             {
@@ -65,6 +69,9 @@ namespace SpeckleNavisworks.Models
                 Mesh.Name = ComBridge.ToModelItem(path).DisplayName;
                 Mesh.CreateIndexGroups();
                 Meshes.Add(Mesh);
+
+                progress.Update(counter);
+                counter += counterIterator;
             }
         }
 

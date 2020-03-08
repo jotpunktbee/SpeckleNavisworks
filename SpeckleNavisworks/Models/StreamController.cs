@@ -80,145 +80,122 @@ namespace SpeckleNavisworks.Models
         }
 
         /// <summary>
-        /// Update a SpeckleStream
-        /// </summary>
-        /// <param name="objects"></param>
-        public static void UpdateStream(List<SpeckleObject> objects)
-        {
-            UpdateStream(objects, null);
-        }
-
-        /// <summary>
         /// Update a SpeckleStream and show progress
         /// </summary>
         /// <param name="objects"></param>
         /// <param name="viewModelProgress"></param>
-        public static void UpdateStream(List<SpeckleObject> objects, ViewModels.Base viewModelProgress)
+        public static async Task<Task> UpdateStream(List<SpeckleObject> objects)
         {
-            var convertedSpeckleObjects = objects;
-            // LocalContext.PruneExistingObjects(convertedSpeckleObjects, Client.BaseUrl);
-
-            var cloneResult = Client.StreamCloneAsync(Client.Stream.StreamId).Result;
-            Client.Stream.Children.Add(cloneResult.Clone.StreamId);
-
-            List<SpeckleObject> persistedSpeckleObjects = new List<SpeckleObject>();
-            ViewModels.StreamDetails showProgress = null;
-            if (convertedSpeckleObjects.Count(obj => obj.Type == "Placeholder") != convertedSpeckleObjects.Count)
+            return Task.Run(() =>
             {
-                int count = 0;
-                var objectUpdatePayloads = new List<List<SpeckleObject>>();
-                long totalBucketSize = 0;
-                long currentBucketSize = 0;
-                var currentBucketObjects = new List<SpeckleObject>();
-                var allObjects = new List<SpeckleObject>();
+                var convertedSpeckleObjects = objects;
+                // LocalContext.PruneExistingObjects(convertedSpeckleObjects, Client.BaseUrl);
 
-                foreach (SpeckleObject convertedSpeckleObject in convertedSpeckleObjects)
+                var cloneResult = Client.StreamCloneAsync(Client.Stream.StreamId).Result;
+                Client.Stream.Children.Add(cloneResult.Clone.StreamId);
+
+                List<SpeckleObject> persistedSpeckleObjects = new List<SpeckleObject>();
+                if (convertedSpeckleObjects.Count(obj => obj.Type == "Placeholder") != convertedSpeckleObjects.Count)
                 {
-                    long size = Converter.getBytes(convertedSpeckleObject).Length;
-                    currentBucketSize += size;
-                    totalBucketSize += size;
-                    currentBucketObjects.Add(convertedSpeckleObject);
+                    int count = 0;
+                    var objectUpdatePayloads = new List<List<SpeckleObject>>();
+                    long totalBucketSize = 0;
+                    long currentBucketSize = 0;
+                    var currentBucketObjects = new List<SpeckleObject>();
+                    var allObjects = new List<SpeckleObject>();
 
-                    if (size > 2e6)
+                    foreach (SpeckleObject convertedSpeckleObject in convertedSpeckleObjects)
                     {
-                        System.Windows.MessageBox.Show("Object is too big to upload!");
-                        currentBucketObjects.Remove(convertedSpeckleObject);
-                    }
+                        long size = Converter.getBytes(convertedSpeckleObject).Length;
+                        currentBucketSize += size;
+                        totalBucketSize += size;
+                        currentBucketObjects.Add(convertedSpeckleObject);
 
-                    if (currentBucketSize > 5e5)
-                    {
-                        Debug.WriteLine("Reached payload limit. Making a new one, current #: )" + objectUpdatePayloads.Count);
-                        objectUpdatePayloads.Add(currentBucketObjects);
-                        currentBucketObjects = new List<SpeckleObject>();
-                        currentBucketSize = 0;
-                    }
-                }
-
-                // Add object in the last bucket
-                if (currentBucketObjects.Count > 0)
-                {
-                    objectUpdatePayloads.Add(currentBucketObjects);
-                }
-
-                Debug.WriteLine("Finished, payload object update count is: " + objectUpdatePayloads.Count + " total bucket size is (kb) " + totalBucketSize / 1000);
-
-                if (viewModelProgress != null)
-                {
-                    showProgress = viewModelProgress as ViewModels.StreamDetails;
-                    showProgress.ProgressMaxValue = objectUpdatePayloads.Count;
-                    showProgress.ProgressValue = 0;
-                }
-
-                int k = 0;
-                List<ResponseObject> responses = new List<ResponseObject>();
-                foreach (var payload in objectUpdatePayloads)
-                {
-                    Debug.WriteLine(String.Format("Sending payload {0} out of {1}", k++, objectUpdatePayloads.Count));
-
-                    try
-                    {
-                        var objectResponse = Client.ObjectCreateAsync(payload).Result;
-                        responses.Add(objectResponse);
-                        persistedSpeckleObjects.AddRange(objectResponse.Resources);
-
-                        int m = 0;
-                        foreach (var oL in payload)
+                        if (size > 2e6)
                         {
-                            oL._id = objectResponse.Resources[m++]._id;
+                            System.Windows.MessageBox.Show("Object is too big to upload!");
+                            currentBucketObjects.Remove(convertedSpeckleObject);
+                        }
 
-                            if (oL.Type != "Placeholder")
+                        if (currentBucketSize > 5e5)
+                        {
+                            Debug.WriteLine("Reached payload limit. Making a new one, current #: )" + objectUpdatePayloads.Count);
+                            objectUpdatePayloads.Add(currentBucketObjects);
+                            currentBucketObjects = new List<SpeckleObject>();
+                            currentBucketSize = 0;
+                        }
+                    }
+
+                    // Add object in the last bucket
+                    if (currentBucketObjects.Count > 0)
+                    {
+                        objectUpdatePayloads.Add(currentBucketObjects);
+                    }
+
+                    Debug.WriteLine("Finished, payload object update count is: " + objectUpdatePayloads.Count + " total bucket size is (kb) " + totalBucketSize / 1000);
+
+                    int k = 0;
+                    List<ResponseObject> responses = new List<ResponseObject>();
+                    foreach (var payload in objectUpdatePayloads)
+                    {
+                        Debug.WriteLine(String.Format("Sending payload {0} out of {1}", k++, objectUpdatePayloads.Count));
+
+                        try
+                        {
+                            var objectResponse = Client.ObjectCreateAsync(payload).Result;
+                            responses.Add(objectResponse);
+                            persistedSpeckleObjects.AddRange(objectResponse.Resources);
+
+                            int m = 0;
+                            foreach (var oL in payload)
                             {
-                                LocalContext.AddSentObject(oL, Client.BaseUrl);
+                                oL._id = objectResponse.Resources[m++]._id;
+
+                                if (oL.Type != "Placeholder")
+                                {
+                                    LocalContext.AddSentObject(oL, Client.BaseUrl);
+                                }
                             }
                         }
-
-                        if (showProgress != null)
+                        catch (Exception ex)
                         {
-                            showProgress.ProgressValue += 1;
+                            System.Windows.MessageBox.Show(ex.Message);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        System.Windows.MessageBox.Show(ex.Message);
-                    }
                 }
-            }
-            else
-            {
-                persistedSpeckleObjects = convertedSpeckleObjects;
-            }
+                else
+                {
+                    persistedSpeckleObjects = convertedSpeckleObjects;
+                }
 
-            Debug.WriteLine("Updating stream...");
+                Debug.WriteLine("Updating stream...");
 
-            List<SpeckleObject> placeholders = new List<SpeckleObject>();
+                List<SpeckleObject> placeholders = new List<SpeckleObject>();
 
-            foreach (var obj in persistedSpeckleObjects)
-            {
-                placeholders.Add(new SpecklePlaceholder() { _id = obj._id });
-            }
+                int progressVal = 0;
+                foreach (var obj in persistedSpeckleObjects)
+                {
+                    placeholders.Add(new SpecklePlaceholder() { _id = obj._id });
+                }
 
-            SpeckleStream updateStream = new SpeckleStream()
-            {
-                Objects = placeholders
-            };
+                SpeckleStream updateStream = new SpeckleStream()
+                {
+                    Objects = placeholders
+                };
 
-            try
-            {
-                var response = Client.StreamUpdateAsync(Client.Stream.StreamId, updateStream).Result;
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-            }
+                try
+                {
+                    var response = Client.StreamUpdateAsync(Client.Stream.StreamId, updateStream).Result;
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show(ex.Message);
+                }
 
-            Client.BroadcastMessage("stream", Client.StreamId, new { eventType = "update-global" });
+                Client.BroadcastMessage("stream", Client.StreamId, new { eventType = "update-global" });
 
-            Debug.WriteLine("Data sent!");
-
-            if (showProgress != null)
-            {
-                showProgress.ProgressValue = 0;
-            }
+                Debug.WriteLine("Data sent!");
+            });
         }
     }
 }
